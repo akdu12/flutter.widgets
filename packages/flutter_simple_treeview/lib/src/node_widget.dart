@@ -53,9 +53,7 @@ class _NodeWidgetState extends State<NodeWidget> {
   @override
   void initState() {
     super.initState();
-    widget.state.addListener(widget.treeNode.key!, () => setState(() {
-      print("setState called");
-    }));
+    widget.state.addListener(widget.treeNode.key!, () => setState(() {}));
   }
 
   @override
