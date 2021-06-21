@@ -14,15 +14,10 @@ import 'primitives/tree_node.dart';
 class NodeWidget extends StatefulWidget {
   final TreeNode treeNode;
   final double? indent;
-  final double? iconSize;
   final TreeController state;
 
   const NodeWidget(
-      {Key? key,
-      required this.treeNode,
-      this.indent,
-      required this.state,
-      this.iconSize})
+      {Key? key, required this.treeNode, this.indent, required this.state})
       : super(key: key);
 
   @override
@@ -41,37 +36,31 @@ class _NodeWidgetState extends State<NodeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var icon = _isLeaf
-        ? null
-        : _isExpanded
-            ? Icons.expand_more
-            : Icons.chevron_right;
-
-    var onIconPressed = _isLeaf
-        ? null
-        : () => setState(
-            () => widget.state.toggleNodeExpanded(widget.treeNode.key!));
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            IconButton(
-              iconSize: widget.iconSize ?? 24.0,
-              icon: Icon(icon),
-              onPressed: onIconPressed,
-            ),
-            widget.treeNode.content,
-          ],
-        ),
+        widget.treeNode.content,
         if (_isExpanded && !_isLeaf)
           Padding(
             padding: EdgeInsets.only(left: widget.indent!),
-            child: buildNodes(widget.treeNode.children!, widget.indent,
-                widget.state, widget.iconSize),
+            child: buildNodes(
+                widget.treeNode.children!, widget.indent, widget.state),
           )
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.state.addListener(widget.treeNode.key!, () => setState(() {
+      print("setState called");
+    }));
+  }
+
+  @override
+  void dispose() {
+    widget.state.removeListener(widget.treeNode.key!);
+    super.dispose();
   }
 }

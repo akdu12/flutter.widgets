@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 class TreeController {
   bool _allNodesExpanded;
   final Map<Key, bool> _expanded = <Key, bool>{};
+  final Map<Key, VoidCallback> _listeners = <Key, VoidCallback>{};
 
   TreeController({allNodesExpanded = true})
       : _allNodesExpanded = allNodesExpanded;
@@ -24,6 +25,7 @@ class TreeController {
 
   void toggleNodeExpanded(Key key) {
     _expanded[key] = !isNodeExpanded(key);
+    notifyListener(key);
   }
 
   void expandAll() {
@@ -38,9 +40,26 @@ class TreeController {
 
   void expandNode(Key key) {
     _expanded[key] = true;
+    notifyListener(key);
   }
 
   void collapseNode(Key key) {
     _expanded[key] = false;
+    notifyListener(key);
+  }
+
+  void addListener(Key key, VoidCallback fn) {
+    _listeners[key] = fn;
+  }
+
+  void removeListener(Key key) {
+    _listeners.remove(key);
+  }
+
+  void notifyListener(Key key) {
+    final callback = _listeners[key];
+    if (callback != null) {
+      callback();
+    }
   }
 }

@@ -12,7 +12,7 @@ import 'primitives/tree_node.dart';
 
 /// Builds set of [nodes] respecting [state], [indent] and [iconSize].
 Widget buildNodes(Iterable<TreeNode> nodes, double? indent,
-    TreeController state, double? iconSize) {
+    TreeController state) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -21,7 +21,6 @@ Widget buildNodes(Iterable<TreeNode> nodes, double? indent,
           treeNode: node,
           indent: indent,
           state: state,
-          iconSize: iconSize,
         )
     ],
   );
