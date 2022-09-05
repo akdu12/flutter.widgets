@@ -39,9 +39,7 @@ class _NodeWidgetState extends State<NodeWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        KeyedSubtree(
-            key: ValueKey(_isExpanded),
-            child: widget.treeNode.content),
+        widget.treeNode.content,
         if (_isExpanded && !_isLeaf)
           Padding(
             padding: EdgeInsets.only(left: widget.indent!),

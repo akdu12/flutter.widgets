@@ -13,6 +13,7 @@ class TreeController {
   bool _allNodesExpanded;
   final Map<Key, bool> _expanded = <Key, bool>{};
   final Map<Key, VoidCallback> _listeners = <Key, VoidCallback>{};
+  final Map<Key, ValueNotifier<bool>> _stateNotifier = <Key, ValueNotifier<bool>>{};
 
   TreeController({allNodesExpanded = true})
       : _allNodesExpanded = allNodesExpanded;
@@ -50,14 +51,19 @@ class TreeController {
 
   void addListener(Key key, VoidCallback fn) {
     _listeners[key] = fn;
+    _stateNotifier[key] = ValueNotifier<bool>(isNodeExpanded(key));
   }
 
   void removeListener(Key key) {
     _listeners.remove(key);
+    _stateNotifier.remove(key);
   }
+
+  ValueNotifier<bool>?  stateNotifier(Key key) => _stateNotifier[key];
 
   void notifyListener(Key key) {
     final callback = _listeners[key];
+    _stateNotifier[key]!.value = isNodeExpanded(key);
     if (callback != null) {
       callback();
     }
