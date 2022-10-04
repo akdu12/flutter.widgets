@@ -63,7 +63,9 @@ class TreeController {
 
   void notifyListener(Key key) {
     final callback = _listeners[key];
-    _stateNotifier[key]!.value = isNodeExpanded(key);
+    if(_stateNotifier.containsKey(key)) {
+      _stateNotifier[key]!.value = isNodeExpanded(key);
+    }
     if (callback != null) {
       callback();
     }
