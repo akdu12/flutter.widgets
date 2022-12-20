@@ -14,7 +14,7 @@ import 'primitives/tree_node.dart';
 Widget buildNodes(
     Iterable<TreeNode> nodes, double? indent, TreeController state,{double? childHeight}) {
   return ListView.builder(
-    physics: NeverScrollableScrollPhysics(),
+    physics: BouncingScrollPhysics(),
     shrinkWrap: true,
     cacheExtent: 0,
     itemExtent: childHeight,
