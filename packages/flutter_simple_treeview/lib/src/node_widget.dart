@@ -15,9 +15,10 @@ class NodeWidget extends StatefulWidget {
   final TreeNode treeNode;
   final double? indent;
   final TreeController state;
+  final double? childHeight;
 
   const NodeWidget(
-      {Key? key, required this.treeNode, this.indent, required this.state})
+      {Key? key, required this.treeNode, this.indent, required this.state,this.childHeight})
       : super(key: key);
 
   @override
@@ -45,7 +46,7 @@ class _NodeWidgetState extends State<NodeWidget> {
           Padding(
             padding: EdgeInsets.only(left: widget.indent!),
             child: buildNodes(
-                widget.treeNode.children!, widget.indent, widget.state),
+                widget.treeNode.children!, widget.indent, widget.state,childHeight: widget.childHeight),
           )
       ],
     );

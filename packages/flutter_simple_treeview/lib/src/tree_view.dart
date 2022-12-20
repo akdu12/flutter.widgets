@@ -22,10 +22,13 @@ class TreeView extends StatefulWidget {
   /// Tree controller to manage the tree state.
   final TreeController? treeController;
 
+  final double? nodeHeight;
+
   TreeView(
       {Key? key,
       required List<TreeNode> nodes,
       this.indent = 40,
+      this.nodeHeight,
       this.treeController})
       : nodes = copyTreeNodes(nodes),
         super(key: key);
@@ -45,6 +48,6 @@ class _TreeViewState extends State<TreeView> {
 
   @override
   Widget build(BuildContext context) {
-    return buildNodes(widget.nodes, widget.indent, _controller!);
+    return buildNodes(widget.nodes, widget.indent, _controller!,childHeight: widget.nodeHeight);
   }
 }
