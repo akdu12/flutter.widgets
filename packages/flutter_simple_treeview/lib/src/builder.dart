@@ -12,12 +12,11 @@ import 'primitives/tree_node.dart';
 
 /// Builds set of [nodes] respecting [state], [indent] and [iconSize].
 Widget buildNodes(
-    Iterable<TreeNode> nodes, double? indent, TreeController state,{double? childHeight}) {
+    Iterable<TreeNode> nodes, double? indent, TreeController state) {
   return ListView.builder(
     physics: BouncingScrollPhysics(),
     shrinkWrap: true,
     cacheExtent: 0,
-    itemExtent: childHeight,
     addSemanticIndexes: false,
     addAutomaticKeepAlives: false,
     addRepaintBoundaries: false,
@@ -26,7 +25,6 @@ Widget buildNodes(
       treeNode: nodes.elementAt(index),
       indent: indent,
       state: state,
-      childHeight: childHeight,
     ),
   );
 }
