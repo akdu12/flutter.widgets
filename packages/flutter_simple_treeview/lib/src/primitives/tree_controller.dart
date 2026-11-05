@@ -54,7 +54,13 @@ class TreeController {
     _stateNotifier[key] = ValueNotifier<bool>(isNodeExpanded(key));
   }
 
-  void removeListener(Key key) {
+  /// Removes the listener registered for [key].
+  ///
+  /// When [fn] is given, the listener is removed only if it is still [fn].
+  /// Another widget may have registered its own listener for [key] since, and
+  /// that one must stay.
+  void removeListener(Key key, [VoidCallback? fn]) {
+    if (fn != null && _listeners[key] != fn) return;
     _listeners.remove(key);
     _stateNotifier.remove(key);
   }

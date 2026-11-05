@@ -53,12 +53,30 @@ class _NodeWidgetState extends State<NodeWidget> {
   @override
   void initState() {
     super.initState();
-    widget.state.addListener(widget.treeNode.key!, () => setState(() {}));
+    widget.state.addListener(widget.treeNode.key!, _rebuild);
+  }
+
+  // If this State is reused for another node, move the listener to that node.
+  // Otherwise the controller keeps calling this State under the old node's
+  // key, also after it is disposed.
+  @override
+  void didUpdateWidget(NodeWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final oldKey = oldWidget.treeNode.key!;
+    final newKey = widget.treeNode.key!;
+    if (oldWidget.state != widget.state || oldKey != newKey) {
+      oldWidget.state.removeListener(oldKey, _rebuild);
+      widget.state.addListener(newKey, _rebuild);
+    }
   }
 
   @override
   void dispose() {
-    widget.state.removeListener(widget.treeNode.key!);
+    widget.state.removeListener(widget.treeNode.key!, _rebuild);
     super.dispose();
+  }
+
+  void _rebuild() {
+    if (mounted) setState(() {});
   }
 }

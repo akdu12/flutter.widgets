@@ -18,6 +18,9 @@ Widget buildNodes(Iterable<TreeNode> nodes, double? indent,
     children: [
       for (var node in nodes)
         NodeWidget(
+          // Keeps each row's State with its node when the node list changes.
+          // copyTreeNodes makes every node key non-null and unique in the tree.
+          key: ValueKey(node.key),
           treeNode: node,
           indent: indent,
           state: state,
